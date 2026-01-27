@@ -131,7 +131,7 @@ screenshaker._next_xorshift() # not necessary
 screenshaker._get_rand_float() # not necessary
 screenshaker.shake(intensity=None, duration=None, impact_pos=None, center_pos=None)
 *pyglet*
-# pyglet uses the PygameScreenShaker in order to work so its mostly the same as in pygame
+pyglet uses the PygameScreenShaker in order to work so its mostly the same as in pygame
 
 * Sprite: PygameTextBox & PygletTextBox
 example
@@ -174,3 +174,43 @@ Dialogue.update()
 *pyglet*
 Dialogue._update_typewriter(dt) # not necessary
 Dialogue.next_string(self)
+
+
+**Arcade only features**
+*Sprite: ArcadeGUIComponents
+example
+```python
+import arcade as arc
+import easycode as ec
+
+component_1 = ec.create_textbox(manager, x, y, width, text="")
+component_2 = ec.create_slider(manager, x, y, width, value=50)
+```
+This creates a arcade version of the TextBox & DraggableSlider thats it.
+
+
+**Pygame, Arcade, & Pyglet Features**
+* Sprite: PygameHealthBar, PygletHealthBar, & ArcadeHealthBar
+example
+```python
+import pygame as pg
+import pyglet as pyg
+import arcade as arc
+import easycode as ec
+
+x, y = 60, 40
+width_per_1hp = 1
+max_health = 200
+current_health = 100
+bar_height = 30
+border_color = (255, 10, 15)
+health_color = (255, 0, 255)
+
+try: # if your using Pygame do this
+    health_bar = ec.PygameHealthBar(x, y, width_per_1hp, max_health, current_health, bar_height, border_color, health_color)
+except: # if your using Pyglet / Arcade do this
+    try: # if your using Pyglet do this
+        # break currently done coding wait for me to update the repository later
+    except: # if your using Arcade do this
+        # break currently done coding wait for me to update the repository later
+# break currently done coding wait for me to update the repository later
