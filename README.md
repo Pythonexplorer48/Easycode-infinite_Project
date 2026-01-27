@@ -210,7 +210,91 @@ try: # if your using Pygame do this
     health_bar = ec.PygameHealthBar(x, y, width_per_1hp, max_health, current_health, bar_height, border_color, health_color)
 except: # if your using Pyglet / Arcade do this
     try: # if your using Pyglet do this
-        # break currently done coding wait for me to update the repository later
+        health_bar = ec.PygletHealthBar(x, y, width_per_hp, max_health, current_health, height, border_color, health_color, batch=None)
     except: # if your using Arcade do this
-        # break currently done coding wait for me to update the repository later
-# break currently done coding wait for me to update the repository later
+        health_bar = ec.ArcadeHealthBar(x, y, width_per_hp, max_health, current_health, height, border_color, health_color)
+```
+This gives you a visible health bar you can use to show the players health it needs these attributes though
+*pygame*
+health_bar.refresh_bar(current_health)
+*pyglet*
+health_bar.refresh_bar(current_health)
+*arcade*
+health_bar.draw()
+
+* Sprite: PygameVisibleVariable, PygletVisibleVariabel, & ArcadeVisibleVariable
+example
+```python
+import pygame as pg
+import pyglet as pyg
+import arcade as arc
+import easycode as ec
+
+x = 80
+y = 70
+variable = 90
+font = "Impact"
+fontsize = 20
+fontcolor = (60, 124, 32)
+background_t_f = True
+
+try: # if your using Pygame do this
+    Visible_Variable = ec.PygameVisibleVariable(font, fontsize, fontcolor, x, y, variable, background_t_f, backgroundcolor=None)
+except: # if your using Pyglet/Arcade do this
+    try: # if your using Pyglet do this
+        Visible_Variable = ec.PygletVisibleVariable(font, fontsize, fontcolor, x, y, variable, background_t_f, backgroundcolor=None)
+    except: # if your using Arcade do this
+        Visible_Variable = ec.ArcadeVisibleVariable(font, fontsize, fontcolor, x, y, variable, background_t_f, backgroundcolor=None)
+```
+This should give you a variable shower which will show variables wether its bools, floats, ints, chars, strings, bitflags, vectors, lists, tuples, or custom variables such as easycodes bigdecimal, bigstring, & bigvector though you need these attributes
+*pygame*
+Visible_Variable.value(new_val) this is better usually
+Visible_Variable.refresh_image(new_val) this only works if inside your main loop before drawing you erase the screen put this after that step and before your pg.display.flip
+*pyglet*
+pyglet does not have any attributes
+*arcade*
+Visible_Variable.draw()
+
+* Sprite Group: PygameVisibleList, PygletVisibleList, & ArcadeVisibleList
+example
+no example given just explanation
+The VisibleVariable uses the TextBox and acts as a Sprite, but it's really a Group of sprites it simply displays either horizontally or vertically all your variables in the order you put them in. It will use the attributes to work
+*pygame*
+List.refresh_list(variablegroup)
+List.draw(surface)
+*pyglet*
+List.refresh_list(items)
+*arcade*
+List.refresh_list(items)
+List.draw()
+
+
+**Wrappers**
+bigstr = BigString
+bigdec = BigDecimal
+bigvector = BigVector2
+bigvector2 = BigVector2
+bigvector3 = BigVector3
+bigvectpr4 = BigVector4
+
+pg_sprite  = PygameSprite
+pg_group   = PygameGroup
+pg_layeredgroup = PygameLayeredGroup
+arc_sprite = ArcadeSprite
+arc_group  = ArcadeGroup
+pgl_sprite = PygletSprite
+pgl_group = PygletGroup
+
+
+**Custom Variables (can be used eithout any dependencies)**
+* BigVectors
+BigVectors are simply variables exactly like the normal vector but they dont use floats they use bigdecimals and bigints but they still have the same traits with decimals and are tuples also with 4 different kinda bigvector just a different name for bigvector2, bigvector2 a more accurate less limited vector, begvector3 a bigvector with a 3rd variable z, bigvector4 a bigvector3 with a 4th variable w
+
+* BigStrings
+BigStrings currently do not save memory yet which was one of its purposes in memory because of that it is worse then the normal string but this will be fixed in 1.4.0 but it uses a bigint to represent a character using some binary and some extra things this makes it surpass the original limit of strings which was 9 quintillion characters of coarse that doesnt matter do to the fact that both require exabytes but when I fix our little problem it might only cost 4 or 5 exabytes instead of 9.
+
+* BigDecimals
+simply a bigint but decimal meaning it is'nt with the float limits and has the bigint limits you can use this for decimals with over 309 digits.
+
+# What this library was intended for
+I (Kent/KA_Xplorer_codes) made this library for the purpose of making coding much easier to combine Pygame, Pyglet, & Arcade make things simpler often be more optimized, and finnally so I could make a project others could enjoy it isn't always for prototypes it can be used for full on games if you would like and if you cannot find the license with changing from a licenseref-propietary to a MIT its the standard don't claim this code as your own.
