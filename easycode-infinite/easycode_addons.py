@@ -716,22 +716,60 @@ class BigVector4(BigVectorBase):
 
 class PygletVisibleVariable(pyglet.text.Label):
     def __init__(self, font, fontsize, fontcolor, x, y, string, background_t_f, backgroundcolor=None):
+        if fontsize <= 0:
+            raise ValueError(f"fontsize must be greater than 0; received {fontsize}")
+
+        if not (isinstance(fontcolor, (list, tuple)) and len(fontcolor) in (3, 4)):
+            raise ValueError("fontcolor must be an RGB (3) or RGBA (4) tuple/list")
+
+        if background_t_f and backgroundcolor is None:
+            raise ValueError("backgroundcolor must be provided if background_t_f is True")
+
         rgba_font = (*fontcolor, 255) if len(fontcolor) == 3 else fontcolor
         
         bg_color = None
-        if background_t_f and backgroundcolor:
+        if background_t_f:
+            if not (isinstance(backgroundcolor, (list, tuple)) and len(backgroundcolor) in (3, 4)):
+                raise ValueError("backgroundcolor must be an RGB (3) or RGBA (4) tuple/list")
             bg_color = (*backgroundcolor, 255) if len(backgroundcolor) == 3 else backgroundcolor
         
-        super().__init__(str(string), font_name=font, font_size=fontsize, 
-                         color=rgba_font, x=x, y=y, background_color=bg_color)
+        super().__init__(
+            str(string), 
+            font_name=font, 
+            font_size=fontsize, 
+            color=rgba_font, 
+            x=x, y=y, 
+            background_color=bg_color
+        )
+
+    def update_value(self, new_value):
+        """Helper to update the displayed text."""
+        self.text = str(new_value)
 
 class PygletHealthBar:
     def __init__(self, x, y, width_per_hp, max_hp, current_hp, height, border_color, health_color, batch=None):
+        if max_hp <= 0:
+            raise ValueError(f"max_hp must be greater than 0; received {max_hp}")
+        if width_per_hp <= 0:
+            raise ValueError(f"width_per_hp must be a positive value; received {width_per_hp}")
+        if height <= 4:
+            raise ValueError(f"height must be greater than 4 to accommodate the 2px border; received {height}")
+        if current_hp < 0 or current_hp > max_hp:
+            raise ValueError(f"current_hp ({current_hp}) must be between 0 and max_hp ({max_hp})")
+
         self.max_hp = max_hp
         self.w_p_hp = width_per_hp
         
-        self.bg = pyglet.shapes.Rectangle(x, y, max_hp * width_per_hp, height, color=border_color, batch=batch)
-        self.bar = pyglet.shapes.Rectangle(x + 2, y + 2, current_hp * width_per_hp - 4, height - 4, color=health_color, batch=batch)
+        self.bg = pyglet.shapes.Rectangle(
+            x, y, max_hp * width_per_hp, height, 
+            color=border_color, batch=batch
+        )
+        
+        bar_width = max(0, (current_hp * width_per_hp) - 4)
+        self.bar = pyglet.shapes.Rectangle(
+            x + 2, y + 2, bar_width, height - 4, 
+            color=health_color, batch=batch
+        )
 
     def refresh_bar(self, current_hp):
         safe_hp = max(0, min(current_hp, self.max_hp))
@@ -739,6 +777,15 @@ class PygletHealthBar:
 
 class PygletVisibleList:
     def __init__(self, font, fontsize, fontcolor, x, y, items, vh="vertical", batch=None):
+        if vh.lower() not in ("vertical", "horizontal"):
+            raise ValueError(f"vh must be 'vertical' or 'horizontal'; received '{vh}'")
+        
+        if fontsize <= 0:
+            raise ValueError(f"fontsize must be a positive value; received {fontsize}")
+            
+        if not (isinstance(fontcolor, (list, tuple)) and len(fontcolor) in (3, 4)):
+            raise ValueError("fontcolor must be an RGB (3) or RGBA (4) tuple/list")
+
         self.items = []
         self.batch = batch
         self.x, self.y = x, y
@@ -751,19 +798,42 @@ class PygletVisibleList:
         curr_x, curr_y = self.x, self.y
         spacing = 10
         
+        rgba_color = (*self.color, 255) if len(self.color) == 3 else self.color
+        
         for text in items:
-            label = pyglet.text.Label(str(text), font_name=self.font, font_size=self.size,
-                                     color=(*self.color, 255), x=curr_x, y=curr_y, batch=self.batch)
+            label = pyglet.text.Label(
+                str(text), 
+                font_name=self.font, 
+                font_size=self.size,
+                color=rgba_color, 
+                x=curr_x, 
+                y=curr_y, 
+                batch=self.batch
+            )
             self.items.append(label)
+            
             if self.vh == "vertical":
                 curr_y -= (self.size + spacing)
             else:
                 curr_x += (len(str(text)) * self.size * 0.6) + spacing
 
+
 class PygletTextBox:
     def __init__(self, x, y, width, initial_text="", batch=None, window=None):
+        if width <= 0:
+            raise ValueError(f"width must be greater than 0 to render text layout; received {width}")
+        
+        if not isinstance(initial_text, str):
+            raise ValueError(f"initial_text must be a string; received {type(initial_text).__name__}")
+
+        if window is not None and not isinstance(window, pyglet.window.Window):
+            raise ValueError("window must be an instance of pyglet.window.Window or None")
+
         self.doc = pyglet.text.document.UnformattedDocument(initial_text)
-        self.layout = pyglet.text.layout.IncrementalTextLayout(self.doc, width, 30, multiline=False, batch=batch)
+        
+        self.layout = pyglet.text.layout.IncrementalTextLayout(
+            self.doc, width, height=30, multiline=False, batch=batch
+        )
         self.layout.x, self.layout.y = x, y
         
         self.caret = pyglet.text.caret.Caret(self.layout)
@@ -774,11 +844,26 @@ class PygletTextBox:
     @property
     def text(self):
         return self.doc.text
-
+    
 class PygletDialogueText:
     def __init__(self, text_list, x, y, width, font_name, fontsize, fontcolor, 
                  background_t_f=False, backgroundcolor=None, 
                  typewrite_t_f=True, time_per_char=0.05, batch=None):
+        if not text_list or not isinstance(text_list, (list, tuple)):
+            raise ValueError("text_list must be a non-empty list or tuple of strings")
+        
+        if width <= 0:
+            raise ValueError(f"width must be a positive value; received {width}")
+            
+        if fontsize <= 0:
+            raise ValueError(f"fontsize must be greater than 0; received {fontsize}")
+
+        if time_per_char <= 0:
+            raise ValueError(f"time_per_char must be a positive duration; received {time_per_char}")
+
+        if background_t_f and backgroundcolor is None:
+            raise ValueError("backgroundcolor must be provided if background_t_f is True")
+
         self.text_list = text_list
         self.index = 0
         self.batch = batch
@@ -786,8 +871,9 @@ class PygletDialogueText:
         self.font, self.size, self.color = font_name, fontsize, fontcolor
         
         self.bg = None
-        if background_t_f and backgroundcolor:
-            self.bg = pyglet.shapes.Rectangle(x-5, y-5, width+10, (fontsize*len(text_list[0])//10)+10, 
+        if background_t_f:
+            bg_h = (fontsize * len(text_list[0]) // 10) + 10
+            self.bg = pyglet.shapes.Rectangle(x-5, y-5, width+10, bg_h, 
                                              color=backgroundcolor, batch=batch)
             self.bg.opacity = 200
 
@@ -796,8 +882,9 @@ class PygletDialogueText:
         self.char_index = 0
         self.typewrite_enabled = typewrite_t_f
         
+        rgba_color = (*fontcolor, 255) if len(fontcolor) == 3 else fontcolor
         self.label = pyglet.text.Label("", font_name=font_name, font_size=fontsize,
-                                      color=(*fontcolor, 255), x=x, y=y, width=width,
+                                      color=rgba_color, x=x, y=y, width=width,
                                       multiline=True, batch=batch)
 
         if self.typewrite_enabled:
@@ -826,6 +913,15 @@ from pyglet import shapes
 
 class PygletDraggableSlider:
     def __init__(self, color, starting_x, y, min_x, max_x, batch=None, window=None):
+        if max_x <= min_x:
+            raise ValueError(f"max_x ({max_x}) must be greater than min_x ({min_x})")
+        
+        if not (min_x <= starting_x <= max_x):
+            raise ValueError(f"starting_x ({starting_x}) must be between {min_x} and {max_x}")
+
+        if not (isinstance(color, (list, tuple)) and len(color) in (3, 4)):
+            raise ValueError("color must be an RGB (3) or RGBA (4) tuple/list")
+
         self.min_x = min_x
         self.max_x = max_x
         self.y = y
@@ -841,9 +937,13 @@ class PygletDraggableSlider:
                                  on_mouse_release=self.on_mouse_release,
                                  on_mouse_drag=self.on_mouse_drag)
 
+    @property
+    def value(self):
+        """Returns a normalized value between 0.0 and 1.0 based on handle position."""
+        return (self.handle.x - self.min_x) / (self.max_x - self.min_x)
+
     def on_mouse_press(self, x, y, button, modifiers):
-        dist = ((x - self.handle.x)**2 + (y - self.handle.y)**2)**0.5
-        if dist < 15:
+        if (x - self.handle.x)**2 + (y - self.handle.y)**2 < 100:
             self.dragging = True
 
     def on_mouse_release(self, x, y, button, modifiers):
@@ -851,7 +951,6 @@ class PygletDraggableSlider:
 
     def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
         if self.dragging:
-            # Constrain movement to the min/max X boundaries
             self.handle.x = max(self.min_x, min(x, self.max_x))
 
     def get_value(self):

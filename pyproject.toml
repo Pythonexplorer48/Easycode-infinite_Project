@@ -8,9 +8,7 @@ version = "1.0.6"
 description = "A simple GUI addon for Pygame, Pyglet, and Arcade"
 readme = "README.md"
 requires-python = ">=3.7"
-
 license = "MIT"
-license-files = ["LICENSE"]
 
 classifiers = [
     "Programming Language :: Python :: 3",
@@ -23,11 +21,21 @@ dependencies = [
     "arcade>=3.0"
 ]
 
+[project.urls]
+Homepage = "https://github.com"
+Documentation = "https://github.com/wiki"
+Repository = "https://github.com"
+Issues = "https://github.com/issues"
+
 [tool.hatch.build.targets.wheel]
-packages = ["easycode"]
+include = ["easycode_addons.py"]
 
 [tool.hatch.build]
 include = [
-    "easycode/sounds/*.wav",
-    "LICENSE"
+    "easycode_addons.py",
+    "LICENSE",
+    "README.md",
+    "CODE_OF_CONDUCT.md",
+    "SECURITY.md",
+    "CONTRIBUTING.md"
 ]
