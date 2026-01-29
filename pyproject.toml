@@ -22,13 +22,16 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com"
-Documentation = "https://github.com/wiki"
-Repository = "https://github.com"
-Issues = "https://github.com/issues"
+Homepage = "https://github.com/Pythonexplorer48/Easycode-infinite_Project"
+Documentation = "https://github.com/Pythonexplorer48/Easycode-infinite_Project/wiki"
+Repository = "https://github.com/Pythonexplorer48/Easycode-infinite_Project"
+Issues = "https://github.com/Pythonexplorer48/Easycode-infinite_Project/issues"
 
 [tool.hatch.build.targets.wheel]
 include = ["easycode_addons.py"]
+
+[tool.hatch.build.targets.wheel.sources]
+"easycode_addons.py" = "easycode.py"
 
 [tool.hatch.build]
 include = [

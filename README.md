@@ -21,6 +21,9 @@ pip install easycode_infinite
 uv pip install easycode_infinite --system
 ```
 
+# Veiw downloads on pepy
+[![Downloads](https://static.pepy.tech)](https://pepy.tech)
+
 # All Features
 **Pygame only features**
 * Attribute: get_font
