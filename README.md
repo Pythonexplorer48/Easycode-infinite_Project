@@ -22,7 +22,7 @@ uv pip install easycode_infinite --system
 ```
 
 # Veiw downloads on pepy
-[![Downloads](https://static.pepy.tech)](https://pepy.tech)
+[![Downloads](https://static.pepy.tech)](https://pepy.tech/projects/easycode-infinite?timeRange=threeMonths&category=version&includeCIDownloads=true&granularity=daily&viewType=line&versions=1.0.5%2C1.0.4%2C1.0.3)
 
 # All Features
 **Pygame only features**

@@ -1053,6 +1053,8 @@ class ArcadeGUIComponents:
         manager.add(slider)
         return slider
 
+from arcade import shapes
+
 class ArcadeEasyDraw:
     def __init__(self):
         self.shape_list = arcade.ShapeElementList()
@@ -1061,13 +1063,20 @@ class ArcadeEasyDraw:
         """Simple one-line Rectangle for Arcade."""
         center_x = x + (width / 2)
         center_y = y - (height / 2)
-        
-        r = arcade.create_rectangle_filled(center_x, center_y, width, height, color, tilt_angle)
-        self.shape_list.append(r)
+        try:
+            r = arcade.create_rectangle_filled(center_x, center_y, width, height, color, tilt_angle)
+            self.shape_list.append(r)
+        except:
+            r = arcade.create_rect_filled(center_x, center_y, width, height, color, tilt_angle)
+            self.shape_list.append(r)
         
         if border_width > 0:
-            b = arcade.create_rectangle_outline(center_x, center_y, width, height, color, border_width)
-            self.shape_list.append(b)
+            try:
+                b = arcade.create_rectangle_outline(center_x, center_y, width, height, color, border_width)
+                self.shape_list.append(b)
+            except:
+                b = arcade.create_rect_outline(center_x, center_y, width, height, color, border_width)
+                self.shape_list.append(b)
         return r
 
     def circle(self, x, y, radius, color=arcade.color.WHITE):
