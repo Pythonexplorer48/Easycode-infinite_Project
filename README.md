@@ -13,13 +13,13 @@ EasyCode-infinite simplifies game development in Python by providing high-precis
 # Installation
 Install EasyCode via `pip` or `uv`:
 
-# Warning:
-* A simple mistake in the project happend which was that unfortunately the Bistring doesn't save memory. This happened because the Bigstring tries splitting every byte into 3 smaller bytes and each would carry the characters but actually I recently found out that bytes are not virtual data they are physical levers. This will be fixed in version 1.4.0 but wont be as good as it orriginally would've been because it will add something that takes up memory and in total it will be worth 2 characters per byte.
-
 ```bash
 pip install easycode_infinite
 uv pip install easycode_infinite --system
 ```
+
+# Warning:
+* A simple mistake in the project happend which was that unfortunately the Bistring doesn't save memory. This happened because the Bigstring tries splitting every byte into 3 smaller bytes and each would carry the characters but actually I recently found out that bytes are not virtual data they are physical levers. This will be fixed in version 1.4.0 but wont be as good as it orriginally would've been because it will add something that takes up memory and in total it will be worth 2 characters per byte.
 
 # Veiw downloads on pepy
 [![Downloads](https://static.pepy.tech)](https://pepy.tech/projects/easycode-infinite?timeRange=threeMonths&category=version&includeCIDownloads=true&granularity=daily&viewType=line&versions=1.0.5%2C1.0.4%2C1.0.3)
@@ -149,7 +149,7 @@ x = 20
 y = 20
 width = 400
 string "Hello World"
-font_name = "CourierNew"w
+font_name = "CourierNew"
 fontsize = 20
 fontcolor = (20, 78, 192)
 

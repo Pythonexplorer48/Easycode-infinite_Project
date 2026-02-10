@@ -716,6 +716,21 @@ class BigVector4(BigVectorBase):
 
 class PygletVisibleVariable(pyglet.text.Label):
     def __init__(self, font, fontsize, fontcolor, x, y, string, background_t_f, backgroundcolor=None):
+        if not isinstance(font, str):
+            raise TypeError(f"font must be a string, not {type(font).__name__}")
+        if not isinstance(fontsize, (int, float)):
+            raise TypeError(f"fontsize must be a number, not {type(fontsize).__name__}")
+        if not isinstance(fontcolor, (list, tuple)):
+            raise TypeError(f"fontcolor must be a list or tuple, not {type(fontcolor).__name__}")
+        if not isinstance(x, (int, float)):
+            raise TypeError(f"x must be a number, not {type(x).__name__}")
+        if not isinstance(y, (int, float)):
+            raise TypeError(f"y must be a number, not {type(y).__name__}")
+        if not isinstance(string, (str, int, float)):
+            raise TypeError(f"string must be a string or number, not {type(string).__name__}")
+        if not isinstance(background_t_f, bool):
+            raise TypeError(f"background_t_f must be a boolean, not {type(background_t_f).__name__}")
+        
         if fontsize <= 0:
             raise ValueError(f"fontsize must be greater than 0; received {fontsize}")
 
@@ -748,6 +763,23 @@ class PygletVisibleVariable(pyglet.text.Label):
 
 class PygletHealthBar:
     def __init__(self, x, y, width_per_hp, max_hp, current_hp, height, border_color, health_color, batch=None):
+        if not isinstance(x, (int, float)):
+            raise TypeError(f"x must be a number, not {type(x).__name__}")
+        if not isinstance(y, (int, float)):
+            raise TypeError(f"y must be a number, not {type(y).__name__}")
+        if not isinstance(width_per_hp, (int, float)):
+            raise TypeError(f"width_per_hp must be a number, not {type(width_per_hp).__name__}")
+        if not isinstance(max_hp, (int, float)):
+            raise TypeError(f"max_hp must be a number, not {type(max_hp).__name__}")
+        if not isinstance(current_hp, (int, float)):
+            raise TypeError(f"current_hp must be a number, not {type(current_hp).__name__}")
+        if not isinstance(height, (int, float)):
+            raise TypeError(f"height must be a number, not {type(height).__name__}")
+        if not isinstance(border_color, (list, tuple)):
+            raise TypeError(f"border_color must be a tuple or list, not {type(border_color).__name__}")
+        if not isinstance(health_color, (list, tuple)):
+            raise TypeError(f"health_color must be a tuple or list, not {type(health_color).__name__}")
+        
         if max_hp <= 0:
             raise ValueError(f"max_hp must be greater than 0; received {max_hp}")
         if width_per_hp <= 0:
@@ -756,6 +788,7 @@ class PygletHealthBar:
             raise ValueError(f"height must be greater than 4 to accommodate the 2px border; received {height}")
         if current_hp < 0 or current_hp > max_hp:
             raise ValueError(f"current_hp ({current_hp}) must be between 0 and max_hp ({max_hp})")
+        
 
         self.max_hp = max_hp
         self.w_p_hp = width_per_hp
@@ -777,6 +810,21 @@ class PygletHealthBar:
 
 class PygletVisibleList:
     def __init__(self, font, fontsize, fontcolor, x, y, items, vh="vertical", batch=None):
+        if not isinstance(font, str):
+            raise TypeError(f"font must be a string, not {type(font).__name__}")
+        if not isinstance(fontsize, (int, float)):
+            raise TypeError(f"fontsize must be a number, not {type(fontsize).__name__}")
+        if not isinstance(fontcolor, (list, tuple)):
+            raise TypeError(f"fontcolor must be a tuple or list, not {type(fontcolor).__name__}")
+        if not isinstance(x, (int, float)):
+            raise TypeError(f"x must be a number, not {type(x).__name__}")
+        if not isinstance(y, (int, float)):
+            raise TypeError(f"y must be a number, not {type(y).__name__}")
+        if not isinstance(items, (list, tuple)):
+            raise TypeError(f"items must be a list or tuple, not {type(items).__name__}")
+        if not isinstance(vh, str):
+            raise TypeError(f"vh must be a string, not {type(vh).__name__}")
+        
         if vh.lower() not in ("vertical", "horizontal"):
             raise ValueError(f"vh must be 'vertical' or 'horizontal'; received '{vh}'")
         
@@ -820,14 +868,19 @@ class PygletVisibleList:
 
 class PygletTextBox:
     def __init__(self, x, y, width, initial_text="", batch=None, window=None):
+        if not isinstance(x, (int, float)):
+            raise TypeError(f"x must be a number, not {type(x).__name__}")
+        if not isinstance(y, (int, float)):
+            raise TypeError(f"y must be a number, not {type(y).__name__}")
+        if not isinstance(width, (int, float)):
+            raise TypeError(f"width must be a number, not {type(width).__name__}")
+        if not isinstance(initial_text, str):
+            raise TypeError(f"initial_text must be a string, not {type(initial_text).__name__}")
+        if window is not None and not isinstance(window, pyglet.window.Window):
+            raise TypeError("window must be an instance of pyglet.window.Window or None")
+        
         if width <= 0:
             raise ValueError(f"width must be greater than 0 to render text layout; received {width}")
-        
-        if not isinstance(initial_text, str):
-            raise ValueError(f"initial_text must be a string; received {type(initial_text).__name__}")
-
-        if window is not None and not isinstance(window, pyglet.window.Window):
-            raise ValueError("window must be an instance of pyglet.window.Window or None")
 
         self.doc = pyglet.text.document.UnformattedDocument(initial_text)
         
@@ -849,6 +902,27 @@ class PygletDialogueText:
     def __init__(self, text_list, x, y, width, font_name, fontsize, fontcolor, 
                  background_t_f=False, backgroundcolor=None, 
                  typewrite_t_f=True, time_per_char=0.05, batch=None):
+        if not isinstance(text_list, (list, tuple)):
+            raise TypeError(f"text_list must be a list or tuple, not {type(text_list).__name__}")
+        if not isinstance(x, (int, float)):
+            raise TypeError(f"x must be a number, not {type(x).__name__}")
+        if not isinstance(y, (int, float)):
+            raise TypeError(f"y must be a number, not {type(y).__name__}")
+        if not isinstance(width, (int, float)):
+            raise TypeError(f"width must be a number, not {type(width).__name__}")
+        if not isinstance(font_name, str):
+            raise TypeError(f"font_name must be a string, not {type(font_name).__name__}")
+        if not isinstance(fontsize, (int, float)):
+            raise TypeError(f"fontsize must be a number, not {type(fontsize).__name__}")
+        if not isinstance(fontcolor, (list, tuple)):
+            raise TypeError(f"fontcolor must be a tuple or list, not {type(fontcolor).__name__}")
+        if not isinstance(background_t_f, bool):
+            raise TypeError(f"background_t_f must be a boolean, not {type(background_t_f).__name__}")
+        if not isinstance(typewrite_t_f, bool):
+            raise TypeError(f"typewrite_t_f must be a boolean, not {type(typewrite_t_f).__name__}")
+        if not isinstance(time_per_char, (int, float)):
+            raise TypeError(f"time_per_char must be a number, not {type(time_per_char).__name__}")
+        
         if not text_list or not isinstance(text_list, (list, tuple)):
             raise ValueError("text_list must be a non-empty list or tuple of strings")
         
@@ -913,6 +987,17 @@ from pyglet import shapes
 
 class PygletDraggableSlider:
     def __init__(self, color, starting_x, y, min_x, max_x, batch=None, window=None):
+        if not isinstance(color, (list, tuple)):
+            raise TypeError(f"color must be a tuple or list, not {type(color).__name__}")
+        if not isinstance(starting_x, (int, float)):
+            raise TypeError(f"starting_x must be a number, not {type(starting_x).__name__}")
+        if not isinstance(y, (int, float)):
+            raise TypeError(f"y must be a number, not {type(y).__name__}")
+        if not isinstance(min_x, (int, float)):
+            raise TypeError(f"min_x must be a number, not {type(min_x).__name__}")
+        if not isinstance(max_x, (int, float)):
+            raise TypeError(f"max_x must be a number, not {type(max_x).__name__}")
+        
         if max_x <= min_x:
             raise ValueError(f"max_x ({max_x}) must be greater than min_x ({min_x})")
         
@@ -1141,6 +1226,13 @@ class ArcadeGroup(arcade.SpriteList):
 #? --- PYGLET WRAPPERS ---
 class PygletSprite(pyglet.sprite.Sprite):
     def __init__(self, img, x="0.0", y="0.0", batch=None):
+        if not hasattr(img, 'width') or not hasattr(img, 'height'):
+            raise TypeError(f"img must be a pyglet image, not {type(img).__name__}")
+        if not isinstance(x, (str, int, float)):
+            raise TypeError(f"x must be a string or number, not {type(x).__name__}")
+        if not isinstance(y, (str, int, float)):
+            raise TypeError(f"y must be a string or number, not {type(y).__name__}")
+        
         self.pos = bigvector2(str(x), str(y))
         super().__init__(img, x=self.pos.x.to_float(), y=self.pos.y.to_float(), batch=batch)
 
