@@ -1074,6 +1074,15 @@ class PygletEasyDraw:
 
 class ArcadeVisibleVariable(arcade.Text):
     def __init__(self, font, fontsize, fontcolor, x, y, string, background_t_f, backgroundcolor=None):
+        if fontsize <= 0:
+            raise ValueError("fontsize can not be 0 or less")
+        
+        if not (isinstance(fontcolor, (list, tuple)) and len(fontcolor) in (3, 4)):
+            raise ValueError("fontcolor must be an RGB (3) or RGBA (4) tuple/list")
+        
+        if not (isinstance(backgroundcolor, (list, tuple)) and len(backgroundcolor) in (3, 4)):
+            raise ValueError("background must be an RGB (3) or RGBA (4) tuple/list")
+        
         super().__init__(str(string), x, y, color=fontcolor, font_size=fontsize, font_name=font)
         self.bg_enabled = background_t_f
         self.bg_color = backgroundcolor
@@ -1095,6 +1104,10 @@ class ArcadeClickedCalculator:
 
 class ArcadeHealthBar:
     def __init__(self, x, y, width_per_hp, max_hp, current_hp, height, border_color, health_color):
+        if width_per_hp <= 0:
+            raise ValueError("width_per_1hp must be a positive number.")
+        if max_hp <= 0:
+            raise ValueError("max_health must be greater than 0.")
         self.x, self.y = x, y
         self.w_p_hp, self.max_hp = width_per_hp, max_hp
         self.height = height
