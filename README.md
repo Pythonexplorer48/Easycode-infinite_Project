@@ -9,6 +9,61 @@ EasyCode-infinite simplifies game development in Python by providing high-precis
 # Github Stars
 ![GitHub stars](https://img.shields.io/github/stars/Pythonexplorer48/Easycode-infinite_Project?style=social)
 
+# Animation (the page does not close because of errors dont worry its intentional)
+![easycode-infinite_animation](https://github.com/user-attachments/assets/a5a457f4-6d60-4cb8-82f5-5979e8c71637)
+
+## Try it yourself
+```python
+import easycode as ec
+import pygame as pg
+import sys
+
+pg.init()
+
+W, H = 1920, 1090
+screen = pg.display.set_mode((W, H))
+pg.display.set_caption("Easycode-infinite GIF")
+clock = pg.time.Clock()
+
+class Button(ec.PygameClickedCalculator): # Sprite 1 PygameClickedCalculator
+    def __init__(self, x, y):
+        super().__init__()
+        self.image = pg.Surface((W, H), pg.SRCALPHA)
+        pg.draw.circle(self.image, (255, 0, 0), (100, 100), 100)
+        self.rect = self.image.get_rect(topleft=(x, y))
+
+text = ec.PygameTextBox(W // 2 - 100, 300, 200, "Try EasyCode-infinite", "Arial", 25, (0, 0, 255), True, (0, 255, 0)) # Sprite 2 PygameTextBox
+button = Button(W // 2 - 100, H // 2 - 100)
+health_bar = ec.PygameHealthBar(W // 2 - 100, 650, 1, 196, 196, 30, (20, 20, 20), (0, 255, 0)) # Sprite 3 PygameHealthBar and this isn't even all of them
+health = 196
+
+draw_group = ec.pg_group(button, health_bar) # Wrapper used
+
+running = True
+while running:
+    for event in pg.event.get():
+        if event.type == pg.QUIT:
+            running = False
+        elif event.type == pg.KEYDOWN:
+            if event.key in (pg.K_ESCAPE):
+                running = False
+        if button.clicked(event): # this what PygameClickedCalulator does
+            draw_group.add(text)
+    screen.fill((0, 0, 0))
+    health -= 1
+
+    health_bar.update_hp(health)
+    if health == 0:
+        running = False
+
+    draw_group.draw(screen)
+    
+    pg.display.flip()
+    clock.tick(60)
+pg.quit()
+sys.exit
+```
+
 # Key Features
 * it includes of 3 special variables BigDecimal, BigString, and BigVector
 * includes of optimizations
