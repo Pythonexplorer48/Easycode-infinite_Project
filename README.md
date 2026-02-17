@@ -3,6 +3,12 @@
 
 EasyCode-infinite simplifies game development in Python by providing high-precision math variables and powerful, easy-to-use base classes for the industry's most popular 2D frameworks.
 
+# Version supported
+![Python Version](https://img.shields.io/badge/python-3.12-blue?logo=python)
+
+# Github Stars
+![GitHub stars](https://img.shields.io/github/stars/Pythonexplorer48/Easycode-infinite_Project?style=social)
+
 # Key Features
 * it includes of 3 special variables BigDecimal, BigString, and BigVector
 * includes of optimizations

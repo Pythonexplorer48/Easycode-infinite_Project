@@ -284,7 +284,6 @@ class PygameHealthBar(pygame.sprite.Sprite):
         
         self.image.fill(self.b_color)
         
-        
         draw_health = current_health
         if draw_health > self.max_h:
             draw_health = self.max_h
