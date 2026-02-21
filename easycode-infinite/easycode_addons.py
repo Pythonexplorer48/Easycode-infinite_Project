@@ -1082,6 +1082,21 @@ class ArcadeVisibleVariable(arcade.Text):
         if not (isinstance(backgroundcolor, (list, tuple)) and len(backgroundcolor) in (3, 4)):
             raise ValueError("background must be an RGB (3) or RGBA (4) tuple/list")
         
+        if not isinstance(font, (str)):
+            raise TypeError(f"font must be a string not {type(font).__name__}")
+        
+        if not isinstance(fontsize, (int, float)):
+            raise TypeError(f"fontsize must be a number not {type(fontsize).__name__}")
+        
+        if not isinstance(x, (int, float)):
+            raise TypeError(f"x must be a number not {type(x).__name__}")
+        
+        if not isinstance(y, (int, float)):
+            raise TypeError(f"y must be a number not {type(y).__name__}")
+        
+        if not isinstance(background_t_f, (bool)):
+            raise TypeError(f"background_t_f must be True/False a boolean not {type(background_t_f).__name__}")
+        
         super().__init__(str(string), x, y, color=fontcolor, font_size=fontsize, font_name=font)
         self.bg_enabled = background_t_f
         self.bg_color = backgroundcolor
@@ -1097,16 +1112,48 @@ class ArcadeVisibleVariable(arcade.Text):
 
 class ArcadeClickedCalculator:
     def clicked(self, x, y, button):
+        if not isinstance(x, (int, float)):
+            raise TypeError(f"x must be a number not {type(x).__name__}")
+        
+        if not isinstance(y, (int, float)):
+            raise TypeError(f"y must be a number not {type(y).__name__}")
+        
         if button == arcade.MOUSE_BUTTON_LEFT:
             return self.collides_with_point((x, y))
         return False
 
 class ArcadeHealthBar:
     def __init__(self, x, y, width_per_hp, max_hp, current_hp, height, border_color, health_color):
+
         if width_per_hp <= 0:
             raise ValueError("width_per_1hp must be a positive number.")
         if max_hp <= 0:
             raise ValueError("max_health must be greater than 0.")
+        
+        if not (isinstance(border_color, (list, tuple)) and len(border_color) in (3, 4)):
+            raise ValueError("border_color must be an RGB (3) or RGBA (4) tuple/list")
+        
+        if not (isinstance(health_color, (list, tuple)) and len(health_color) in (3, 4)):
+            raise ValueError("health_color must be an RGB (3) or RGBA (4) tuple/list")
+        
+        if not isinstance(x, (int, float)):
+            raise TypeError(f"x must be a number not {type(x).__name__}")
+        
+        if not isinstance(y, (int, float)):
+            raise TypeError(f"y must be a number not {type(y).__name__}")
+        
+        if not isinstance(width_per_hp, (int, float)):
+            raise TypeError(f"width_per_hp must be a number not {type(width_per_hp).__name__}")
+        
+        if not isinstance(max_hp, (int, float)):
+            raise TypeError(f"max_hp must be a number not {type(max_hp).__name__}")
+        
+        if not isinstance(current_hp, (int, float)):
+            raise TypeError(f"current_hp must be a number not {type(current_hp).__name__}")
+        
+        if not isinstance(height, (int, float)):
+            raise TypeError(f"height must be a number not {type(current_hp).__name__}")
+
         self.x, self.y = x, y
         self.w_p_hp, self.max_hp = width_per_hp, max_hp
         self.height = height
@@ -1125,6 +1172,18 @@ class ArcadeVisibleList:
         self.x, self.y = x, y
         self.font, self.size, self.color = font, fontsize, fontcolor
         self.refresh_list(items)
+        
+        if not isinstance(font, (str)):
+            raise TypeError(f"font must be a string not {type(font).__name__}")
+        
+        if not isinstance(fontsize, (int, float)):
+            raise TypeError(f"fontsize must be a number not {type(fontsize).__name__}")
+        
+        if not isinstance(x, (int, float)):
+            raise TypeError(f"x must be a number not {type(x).__name__}")
+        
+        if not isinstance(y, (int, float)):
+            raise TypeError(f"y must be a number not {type(y).__name__}")
 
     def refresh_list(self, items):
         self.items = []
